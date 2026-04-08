@@ -1,0 +1,13 @@
+{
+  "name": "com.rolandkaechele.itemmanager",
+  "version": "1.0.0",
+  "displayName": "ItemManager",
+  "description": "World-space item pickup manager with per-map spawning, one-time pickup tracking, JSON-driven definitions, auto-prefab generation, and optional DOTween Pro, RealToon, InventoryManager, SaveManager, EventManager, StateManager, MapLoaderFramework, and CutsceneManager integration.",
+  "unity": "2022.3",
+  "author": {
+    "name": "Roland Kaechele"
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
+  }
+}
