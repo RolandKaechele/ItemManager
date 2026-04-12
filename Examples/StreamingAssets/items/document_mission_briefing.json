@@ -1,0 +1,25 @@
+﻿{
+    "items":  [
+                  {
+                      "id":  "document_mission_briefing",
+                      "label":  "Mission Briefing",
+                      "mapIds":  [
+
+                                 ],
+                      "prefabResource":  "Items/ItemPickup_document_mission_briefing",
+                      "px":  5.0,
+                      "py":  1.0,
+                      "pz":  2.5,
+                      "rx":  0,
+                      "ry":  45,
+                      "rz":  0,
+                      "inventoryItemId":  "document_mission_briefing",
+                      "quantity":  1,
+                      "oneTimePickup":  true,
+                      "pickupBehaviour":  0,
+                      "collectRadius":  1.2,
+                      "pickupTag":  "Pickup",
+                      "chapter":  1
+                  }
+              ]
+}

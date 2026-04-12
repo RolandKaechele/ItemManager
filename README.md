@@ -40,8 +40,9 @@ When `ITEMMANAGER_EM` is active the following events are fired:
 
 Place one or more `.json` files in `StreamingAssets/items/` to override or extend item definitions at runtime without recompiling.
 All `*.json` files in the folder are loaded and merged by `id` at startup.
+Each file contains exactly one item entry and is named by item ID.
 
-**Example:** `StreamingAssets/items/main.json`
+**Example:** `StreamingAssets/items/key_red_rock_lab.json`
 
 ```json
 {
@@ -49,6 +50,7 @@ All `*.json` files in the folder are loaded and merged by `id` at startup.
     {
       "id": "key_red_rock_lab",
       "label": "Red Rock Lab Key",
+      "chapter": 8,
       "mapIds": ["red_rock_lab_entrance"],
       "prefabResource": "Items/ItemPickup_key_red_rock_lab",
       "px": 12.5, "py": 0.5, "pz": -3.0,
@@ -68,6 +70,7 @@ All `*.json` files in the folder are loaded and merged by `id` at startup.
 | ----- | ---- | ----------- |
 | `id` | string | Unique identifier |
 | `label` | string | Human-readable name |
+| `chapter` | int | Chapter number this item belongs to (`0` = global/all chapters) |
 | `mapIds` | string[] | Map ids to spawn on; empty = all maps |
 | `prefabResource` | string | `Resources.Load` path to pickup prefab |
 | `px`, `py`, `pz` | float | World-space position |
@@ -108,6 +111,6 @@ Open via **JSON Editors → Item Manager** in the Unity menu bar, or via the **O
 | ------ | ------ |
 | **Load** | Reads all `*.json` from `StreamingAssets/items/`; creates the folder if missing |
 | **Edit** | Add / remove / reorder entries using the Inspector list |
-| **Save** | Writes to `StreamingAssets/items/items.json` and calls `AssetDatabase.Refresh()` |
+| **Save** | Writes each entry as `<id>.json` to `StreamingAssets/items/`; entries without an `id` are skipped. Calls `AssetDatabase.Refresh()` |
 
 With **ODIN_INSPECTOR** active, the list uses Odin's enhanced drawer (drag-to-sort, collapsible entries).

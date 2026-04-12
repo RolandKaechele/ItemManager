@@ -93,6 +93,9 @@ namespace ItemManager.Runtime
         /// <summary>Optional tag applied to the spawned pickup GameObject.</summary>
         public string pickupTag;
 
+        /// <summary>Chapter number this item belongs to (0 = global / not chapter-specific).</summary>
+        public int chapter;
+
         /// <summary>Stores the original deserialized JSON for unknown / future fields.</summary>
         [NonSerialized] public string rawJson;
     }
@@ -148,6 +151,7 @@ namespace ItemManager.Runtime
         public string promptLocalizationKey;
         public float collectRadius = 1f;
         public string pickupTag;
+        public int chapter;
 
         public ItemWorldDefinition ToDefinition()
         {
@@ -166,7 +170,8 @@ namespace ItemManager.Runtime
                 pickupBehaviour      = (ItemPickupBehaviour)pickupBehaviour,
                 promptLocalizationKey = promptLocalizationKey,
                 collectRadius        = collectRadius,
-                pickupTag            = pickupTag
+                pickupTag            = pickupTag,
+                chapter              = chapter
             };
 
             if (mapIds != null)

@@ -1,0 +1,26 @@
+﻿{
+    "items":  [
+                  {
+                      "id":  "key_red_rock_lab",
+                      "label":  "Red Rock Lab Key",
+                      "mapIds":  [
+                                     "red_rock_lab_entrance"
+                                 ],
+                      "prefabResource":  "Items/ItemPickup_key_red_rock_lab",
+                      "px":  12.5,
+                      "py":  0.5,
+                      "pz":  -3.0,
+                      "rx":  0,
+                      "ry":  0,
+                      "rz":  0,
+                      "inventoryItemId":  "key_red_rock_lab",
+                      "quantity":  1,
+                      "oneTimePickup":  true,
+                      "saveFlag":  "",
+                      "pickupBehaviour":  1,
+                      "collectRadius":  1.5,
+                      "pickupTag":  "Pickup",
+                      "chapter":  1
+                  }
+              ]
+}

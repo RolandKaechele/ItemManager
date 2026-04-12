@@ -18,8 +18,7 @@ namespace ItemManager.Editor
     /// </summary>
     public class ItemJsonEditorWindow : EditorWindow
     {
-        private const string JsonFolderName   = "items";
-        private const string JsonSaveFileName = "items.json";
+        private const string JsonFolderName = "items";
 
         private ItemEditorBridge         _bridge;
         private UnityEditor.Editor       _bridgeEditor;
@@ -88,7 +87,6 @@ namespace ItemManager.Editor
                 else
                 {
                     Directory.CreateDirectory(folderPath);
-                    File.WriteAllText(Path.Combine(folderPath, JsonSaveFileName), JsonUtility.ToJson(new ItemJsonWrapper(), true));
                     AssetDatabase.Refresh();
                 }
                 _bridge.items = list;
@@ -105,11 +103,16 @@ namespace ItemManager.Editor
             {
                 string folderPath = Path.Combine(Application.streamingAssetsPath, JsonFolderName);
                 if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
-                var w = new ItemJsonWrapper { items = new List<ItemWorldJson>(_bridge.items) };
-                var path = Path.Combine(folderPath, JsonSaveFileName);
-                File.WriteAllText(path, JsonUtility.ToJson(w, true));
+                int saved = 0;
+                foreach (var entry in _bridge.items)
+                {
+                    if (string.IsNullOrEmpty(entry.id)) continue;
+                    var w = new ItemJsonWrapper { items = new List<ItemWorldJson> { entry } };
+                    File.WriteAllText(Path.Combine(folderPath, $"{entry.id}.json"), JsonUtility.ToJson(w, true));
+                    saved++;
+                }
                 AssetDatabase.Refresh();
-                _status = $"Saved {_bridge.items.Count} items to {JsonFolderName}/{JsonSaveFileName}.";
+                _status = $"Saved {saved} item file(s) to {JsonFolderName}/";
                 _statusError = false;
             }
             catch (Exception e) { _status = $"Save error: {e.Message}"; _statusError = true; }

@@ -1,0 +1,27 @@
+﻿{
+    "items":  [
+                  {
+                      "id":  "serum_antidote_vial",
+                      "label":  "Antidote Vial",
+                      "mapIds":  [
+                                     "poison_cave_01",
+                                     "poison_cave_02"
+                                 ],
+                      "prefabResource":  "Items/ItemPickup_serum_antidote_vial",
+                      "px":  0,
+                      "py":  0.5,
+                      "pz":  0,
+                      "rx":  0,
+                      "ry":  0,
+                      "rz":  0,
+                      "spawnPointId":  "serum_spawn_01",
+                      "inventoryItemId":  "serum_antidote",
+                      "quantity":  2,
+                      "oneTimePickup":  false,
+                      "pickupBehaviour":  0,
+                      "collectRadius":  1.0,
+                      "pickupTag":  "Pickup",
+                      "chapter":  1
+                  }
+              ]
+}
