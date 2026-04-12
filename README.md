@@ -95,3 +95,16 @@ Each entry creates `ItemPickup_{id}.prefab` with an `ItemPickup` component, a sp
 4. If using MapLoaderFramework, also add a `MapLoaderBridge` component and enable `ITEMMANAGER_MLF`.
 5. Call `ItemManager.Instance.SpawnItemsForMap("my_map_id")` or let `MapLoaderBridge` do it automatically.
 6. On pickup, `ItemPickup` fires `OnCollected` — `ItemManager` handles the rest.
+
+
+## Editor Tools
+
+Open via **JSON Editors → Item Manager** in the Unity menu bar, or via the **Open JSON Editor** button in the ItemManager Inspector.
+
+| Action | Result |
+| ------ | ------ |
+| **Load** | Reads `StreamingAssets/items.json`; creates the file if missing |
+| **Edit** | Add / remove / reorder entries using the Inspector list |
+| **Save** | Writes back to `StreamingAssets/items.json` and calls `AssetDatabase.Refresh()` |
+
+With **ODIN_INSPECTOR** active, the list uses Odin's enhanced drawer (drag-to-sort, collapsible entries).

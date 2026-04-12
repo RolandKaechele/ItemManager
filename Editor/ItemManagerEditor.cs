@@ -19,6 +19,9 @@ namespace ItemManager.Editor
         {
             DrawDefaultInspector();
 
+            EditorGUILayout.Space(4);
+            if (GUILayout.Button("Open JSON Editor")) ItemJsonEditorWindow.ShowWindow();
+
             var mgr = (ItemManager.Runtime.ItemManager)target;
 
             EditorGUILayout.Space(8);
