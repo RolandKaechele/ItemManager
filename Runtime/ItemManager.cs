@@ -70,8 +70,8 @@ namespace ItemManager.Runtime
         [Tooltip("Merge item definitions from StreamingAssets/<jsonPath> at startup.")]
         [SerializeField] private bool loadFromJson = false;
 
-        [Tooltip("Path relative to StreamingAssets/ (e.g. 'items.json').")]
-        [SerializeField] private string jsonPath = "items.json";
+        [Tooltip("Path relative to StreamingAssets/ (e.g. 'items/' or 'items.json').")]
+        [SerializeField] private string jsonPath = "items/";
 
         [Header("Debug")]
         [Tooltip("Log all spawn, collect, and clear events to the Unity Console.")]
@@ -345,19 +345,29 @@ namespace ItemManager.Runtime
         private void LoadJsonDefinitions()
         {
             string fullPath = Path.Combine(Application.streamingAssetsPath, jsonPath);
-            if (!File.Exists(fullPath))
+            if (Directory.Exists(fullPath))
+            {
+                foreach (var file in Directory.GetFiles(fullPath, "*.json", SearchOption.TopDirectoryOnly))
+                    MergeItemsFromFile(file);
+            }
+            else if (File.Exists(fullPath))
+            {
+                MergeItemsFromFile(fullPath);
+            }
+            else
             {
                 if (verboseLogging)
                     Debug.Log($"[ItemManager] JSON not found at '{fullPath}' — skipping.");
-                return;
             }
+        }
 
-            string json = File.ReadAllText(fullPath);
+        private void MergeItemsFromFile(string path)
+        {
             ItemJsonWrapper wrapper;
-            try { wrapper = JsonUtility.FromJson<ItemJsonWrapper>(json); }
+            try { wrapper = JsonUtility.FromJson<ItemJsonWrapper>(File.ReadAllText(path)); }
             catch (Exception ex)
             {
-                Debug.LogError($"[ItemManager] Failed to parse '{fullPath}': {ex.Message}");
+                Debug.LogError($"[ItemManager] Failed to parse '{path}': {ex.Message}");
                 return;
             }
 

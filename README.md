@@ -4,7 +4,7 @@ World-space item pickup manager for Unity. Handles per-map spawning of collectib
 
 ## Features
 
-- Named `ItemWorldDefinition` entries configured in the Inspector or loaded from `StreamingAssets/items.json`
+- Named `ItemWorldDefinition` entries configured in the Inspector or loaded from `StreamingAssets/items/`
 - Per-map item spawning — definitions filter by `mapIds`; empty list means always spawned
 - `ItemPickup` component supports **AutoCollect** (trigger), **Interact** (button press), and **Manual** (API-only) behaviours
 - One-time pickup tracking with optional SaveManager persistence
@@ -12,7 +12,7 @@ World-space item pickup manager for Unity. Handles per-map spawning of collectib
 - `OnSpawnedCallback` and `OnCollectedCallback` delegate hooks for bridges
 - Editor window: auto-generate pickup prefabs from `items.json` (`Generate Prefabs > Item Prefabs from JSON`)
 - Custom Inspector with live instance counts and runtime spawn/collect controls
-- JSON modding support via `StreamingAssets/items.json` (entries merged by `id`)
+- JSON modding support via `StreamingAssets/items/` (entries merged by `id`)
 
 ## Optional Integrations
 
@@ -38,7 +38,10 @@ When `ITEMMANAGER_EM` is active the following events are fired:
 
 ## JSON Modding
 
-Place an `items.json` file in `StreamingAssets/` to override or extend item definitions at runtime without recompiling. Entries are merged by `id`.
+Place one or more `.json` files in `StreamingAssets/items/` to override or extend item definitions at runtime without recompiling.
+All `*.json` files in the folder are loaded and merged by `id` at startup.
+
+**Example:** `StreamingAssets/items/main.json`
 
 ```json
 {
@@ -103,8 +106,8 @@ Open via **JSON Editors → Item Manager** in the Unity menu bar, or via the **O
 
 | Action | Result |
 | ------ | ------ |
-| **Load** | Reads `StreamingAssets/items.json`; creates the file if missing |
+| **Load** | Reads all `*.json` from `StreamingAssets/items/`; creates the folder if missing |
 | **Edit** | Add / remove / reorder entries using the Inspector list |
-| **Save** | Writes back to `StreamingAssets/items.json` and calls `AssetDatabase.Refresh()` |
+| **Save** | Writes to `StreamingAssets/items/items.json` and calls `AssetDatabase.Refresh()` |
 
 With **ODIN_INSPECTOR** active, the list uses Odin's enhanced drawer (drag-to-sort, collapsible entries).

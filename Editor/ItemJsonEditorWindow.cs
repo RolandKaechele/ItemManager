@@ -18,7 +18,8 @@ namespace ItemManager.Editor
     /// </summary>
     public class ItemJsonEditorWindow : EditorWindow
     {
-        private const string JsonFileName = "items.json";
+        private const string JsonFolderName   = "items";
+        private const string JsonSaveFileName = "items.json";
 
         private ItemEditorBridge         _bridge;
         private UnityEditor.Editor       _bridgeEditor;
@@ -62,7 +63,7 @@ namespace ItemManager.Editor
         {
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
             EditorGUILayout.LabelField(
-                Path.Combine("StreamingAssets", JsonFileName),
+                $"StreamingAssets/{JsonFolderName}/",
                 EditorStyles.miniLabel);
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Load", EditorStyles.toolbarButton, GUILayout.Width(50))) Load();
@@ -72,46 +73,46 @@ namespace ItemManager.Editor
 
         private void Load()
         {
-            var path = Path.Combine(Application.streamingAssetsPath, JsonFileName);
+            string folderPath = Path.Combine(Application.streamingAssetsPath, JsonFolderName);
             try
             {
-                if (!File.Exists(path))
+                var list = new List<ItemWorldJson>();
+                if (Directory.Exists(folderPath))
                 {
-                    File.WriteAllText(path, JsonUtility.ToJson(new ItemJsonWrapper(), true));
+                    foreach (var file in Directory.GetFiles(folderPath, "*.json", SearchOption.TopDirectoryOnly))
+                    {
+                        var w = JsonUtility.FromJson<ItemJsonWrapper>(File.ReadAllText(file));
+                        if (w?.items != null) list.AddRange(w.items);
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(folderPath);
+                    File.WriteAllText(Path.Combine(folderPath, JsonSaveFileName), JsonUtility.ToJson(new ItemJsonWrapper(), true));
                     AssetDatabase.Refresh();
                 }
-
-                var w = JsonUtility.FromJson<ItemJsonWrapper>(File.ReadAllText(path));
-                _bridge.items = new List<ItemWorldJson>(w.items ?? new List<ItemWorldJson>());
-
+                _bridge.items = list;
                 if (_bridgeEditor != null) { DestroyImmediate(_bridgeEditor); _bridgeEditor = null; }
-
-                _status     = $"Loaded {_bridge.items.Count} world items.";
+                _status = $"Loaded {list.Count} items from {JsonFolderName}/.";
                 _statusError = false;
             }
-            catch (Exception e)
-            {
-                _status     = $"Load error: {e.Message}";
-                _statusError = true;
-            }
+            catch (Exception e) { _status = $"Load error: {e.Message}"; _statusError = true; }
         }
 
         private void Save()
         {
             try
             {
-                var w    = new ItemJsonWrapper { items = new List<ItemWorldJson>(_bridge.items) };
-                var path = Path.Combine(Application.streamingAssetsPath, JsonFileName);
+                string folderPath = Path.Combine(Application.streamingAssetsPath, JsonFolderName);
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+                var w = new ItemJsonWrapper { items = new List<ItemWorldJson>(_bridge.items) };
+                var path = Path.Combine(folderPath, JsonSaveFileName);
                 File.WriteAllText(path, JsonUtility.ToJson(w, true));
                 AssetDatabase.Refresh();
-                _status     = $"Saved {_bridge.items.Count} items to {JsonFileName}.";
+                _status = $"Saved {_bridge.items.Count} items to {JsonFolderName}/{JsonSaveFileName}.";
                 _statusError = false;
             }
-            catch (Exception e)
-            {
-                _status     = $"Save error: {e.Message}";
-                _statusError = true;
-            }
+            catch (Exception e) { _status = $"Save error: {e.Message}"; _statusError = true; }
         }
     }
 
