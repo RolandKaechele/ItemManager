@@ -2,7 +2,8 @@
     "name": "ItemManager.Editor",
     "rootNamespace": "ItemManager.Editor",
     "references": [
-        "ItemManager.Runtime"
+        "ItemManager.Runtime",
+        "UnityEngine.UI"
     ],
     "includePlatforms": [
         "Editor"
